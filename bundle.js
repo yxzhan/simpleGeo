@@ -458,13 +458,14 @@
 	    template: __webpack_require__(10),
 	    data: function(){
 	        return {
+	            timer: null,
 	            title: 'VUE Module',
 	            message: '',
 	            secret: 'The secret variable',
-	            angle: 20,
 	            edge: 1460,
 	            deviation: 30,
-	            displaySize: 0
+	            displaySize: 0,
+	            calRotate: 0
 	        }
 	    },
 	    ready: function(){
@@ -482,6 +483,17 @@
 	    watch: {
 	        edge: function(){
 	            this.deviation = 0;
+	        },
+	        deviation: function(){
+	            var that = this;
+	            if(that.timer){
+	                clearTimeout(that.timer);
+	            }
+	            that.timer = setTimeout(function(){
+	                that.calRotate = {
+	                    transform: 'rotate('+ that.calAngle +'deg)'
+	                };
+	            },200);
 	        }
 	    },
 	    computed: {
@@ -489,10 +501,9 @@
 	            return this.title + this.message;
 	        },
 	        'calAngle': function(){
-	            //var maxDev = ( Math.sqrt(2) - 1 ) * this.edge / 2;
-	            if(this.deviation > this.maxDeviation){
-	                return '无法计算旋转角度，偏离值不能超过'+ this.maxDeviation;
-	            }
+	            //if(this.deviation > this.maxDeviation){
+	            //    return '无法计算旋转角度，偏离值不能超过'+ this.maxDeviation;
+	            //}
 	            function angle (a, d) {
 	                return 45 - Math.acos( Math.sqrt(2)/2 + Math.sqrt(2)*d/a ) * (180/Math.PI);
 	            }
@@ -500,12 +511,12 @@
 	        },
 	        maxDeviation: function(){
 	            return  ( Math.sqrt(2) - 1 ) * this.edge / 2
-	        },
-	        calRotate: function(){
-	            return {
-	                transform: 'rotate('+ this.calAngle +'deg)'
-	            };
 	        }
+	        //calRotate: function(){
+	        //    return {
+	        //        transform: 'rotate('+ this.calAngle +'deg)'
+	        //    };
+	        //}
 	    }
 	};
 
@@ -544,7 +555,7 @@
 
 
 	// module
-	exports.push([module.id, ".vue-home {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  background-color: #eeeeee;\n  padding: 10px 10px 30px 10px;\n  border-radius: 10px;\n  box-shadow: 5px 10px 10px #aaa;\n}\n.vue-home .geo-block label {\n  display: inline-block;\n  width: 80px;\n  margin: 5px 0;\n}\n.vue-home .geo-block .result {\n  color: red;\n}\n.vue-home .geo-block .graphic {\n  margin-top: 30px;\n  text-align: center;\n}\n.vue-home .geo-block .graphic .base {\n  display: inline-block;\n  border: 1px solid #aaa;\n  width: 400px;\n  height: 400px;\n}\n.vue-home .geo-block .graphic .base .rect {\n  transition: all 1s;\n  border: 1px solid red;\n  display: inline-block;\n  width: 100%;\n  height: 100%;\n}\n", ""]);
+	exports.push([module.id, ".vue-home {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  background-color: #eeeeee;\n  padding: 10px 10px 30px 10px;\n  border-radius: 10px;\n  box-shadow: 5px 10px 10px #aaa;\n}\n.vue-home .geo-block label {\n  display: inline-block;\n  width: 80px;\n  margin: 5px 0;\n}\n.vue-home .geo-block .result {\n  color: #fa0000;\n}\n.vue-home .geo-block .graphic {\n  margin-top: 30px;\n  text-align: center;\n}\n.vue-home .geo-block .graphic .base {\n  display: inline-block;\n  border: 1px solid #aaa;\n  width: 400px;\n  height: 400px;\n}\n.vue-home .geo-block .graphic .base .rect {\n  transition: all 1s;\n  border: 1px solid #0b97c4;\n  display: inline-block;\n  width: 100%;\n  height: 100%;\n}\n", ""]);
 
 	// exports
 
@@ -553,7 +564,7 @@
 /* 10 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"vue-home\">\r\n    <!--<h4>{{title}}</h4>-->\r\n    <!--<p>message: {{message}}</p>-->\r\n    <!--<hr>-->\r\n    <!--<input class=\"editor\" type=\"text\" v-model=\"message\" placeholder=\"edit message\">-->\r\n    <!--<button @click=\"cleanInput\">clean message</button>-->\r\n\r\n    <div class=\"geo-block\">\r\n        <label>边长：</label>\r\n        <input type=\"number\" id=\"edge\" v-model=\"edge\"/>\r\n        <br/>\r\n        <label>偏离值：</label>\r\n        <input type=\"range\" id=\"deviation\" min=\"0\" v-bind:max=\"maxDeviation\" v-model=\"deviation\"/>\r\n        <span>{{deviation}}</span>\r\n        <br/>\r\n        <label>旋转角度：</label>\r\n        <!--<input type=\"text\" id=\"angle\" v-model=\"angle\"/>-->\r\n        <span class=\"result\">{{calAngle}}</span>\r\n        <br/>\r\n\r\n        <div class=\"graphic\">\r\n            <div class=\"base\" v-bind:style=\"displaySize\">\r\n                <div class=\"rect\" v-bind:style=\"calRotate\"></div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
+	module.exports = "<div class=\"vue-home\">\r\n    <!--<h4>{{title}}</h4>-->\r\n    <!--<p>message: {{message}}</p>-->\r\n    <!--<hr>-->\r\n    <!--<input class=\"editor\" type=\"text\" v-model=\"message\" placeholder=\"edit message\">-->\r\n    <!--<button @click=\"cleanInput\">clean message</button>-->\r\n\r\n    <div class=\"geo-block\">\r\n        <label>边长：</label>\r\n        <input type=\"number\" id=\"edge\" v-model=\"edge\"/>\r\n        <br/>\r\n        <label>偏离值：</label>\r\n        <input type=\"range\" id=\"deviation\" min=\"0\" v-bind:max=\"maxDeviation\" v-model=\"deviation\"/>\r\n        <span>{{deviation}}<br>(max:{{maxDeviation}})</span>\r\n        <hr>\r\n        <label>旋转角度：</label>\r\n        <!--<input type=\"text\" id=\"angle\" v-model=\"angle\"/>-->\r\n        <span class=\"result\">{{calAngle}}</span>\r\n        <br/>\r\n\r\n        <div class=\"graphic\">\r\n            <div class=\"base\" v-bind:style=\"displaySize\">\r\n                <div class=\"rect\" v-bind:style=\"calRotate\"></div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>";
 
 /***/ }
 /******/ ]);
