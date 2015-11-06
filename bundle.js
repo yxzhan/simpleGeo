@@ -465,15 +465,18 @@
 	            edge: 1460,
 	            deviation: 30,
 	            displaySize: 0,
-	            calRotate: 0
+	            calRotate: {}
 	        }
 	    },
 	    ready: function(){
-	        var w = $(document).width()*0.6 + 'px';
+	        var w = $(document).width()*0.4 + 'px';
 	        this.displaySize = {
 	            width:  w,
 	            height: w
-	        }
+	        };
+	        this.calRotate = {
+	            transform: 'rotate('+ this.calAngle +'deg)'
+	        };
 	    },
 	    methods: {
 	        cleanInput: function(){
