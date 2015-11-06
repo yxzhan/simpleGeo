@@ -11,20 +11,3 @@ function angle (a, d) {
     return 45 - Math.acos( Math.sqrt(2)/2 + Math.sqrt(2)*d/a ) * (180/Math.PI);
 }
 ```
-
-
-## Run debug
-
-``
-webpack --progress --colors --watch
-``
-
-## Run server
-``
-webpack-dev-server --progress --colors
-``
-
-
-## Build tools
-
-gulp, webpack.
