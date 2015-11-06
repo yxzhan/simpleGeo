@@ -1,0 +1,27 @@
+<div class="vue-home">
+    <!--<h4>{{title}}</h4>-->
+    <!--<p>message: {{message}}</p>-->
+    <!--<hr>-->
+    <!--<input class="editor" type="text" v-model="message" placeholder="edit message">-->
+    <!--<button @click="cleanInput">clean message</button>-->
+
+    <div class="geo-block">
+        <label>边长：</label>
+        <input type="number" id="edge" v-model="edge"/>
+        <br/>
+        <label>偏离值：</label>
+        <input type="range" id="deviation" min="0" v-bind:max="maxDeviation" v-model="deviation"/>
+        <span>{{deviation}}<br>(max:{{maxDeviation}})</span>
+        <hr>
+        <label>旋转角度：</label>
+        <!--<input type="text" id="angle" v-model="angle"/>-->
+        <span class="result">{{calAngle}}</span>
+        <br/>
+
+        <div class="graphic">
+            <div class="base" v-bind:style="displaySize">
+                <div class="rect" v-bind:style="calRotate"></div>
+            </div>
+        </div>
+    </div>
+</div>
