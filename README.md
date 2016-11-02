@@ -1,7 +1,7 @@
 
-# 小学几何题
-
-答案地址
+# 一道小学几何题
+一个简单的练手例子，分别用angular和vue实现了一遍。
+demo地址
 http://yxzhan.github.io/simpleGeo.
 
 ### 公式：
